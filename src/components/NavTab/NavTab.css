@@ -1,0 +1,25 @@
+.nav-tab__links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-tab__list_item {
+  display: flex;
+  width: 96px;
+  height: 36px;
+  margin: auto 5px 30px;
+  background-color: #303030;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-tab__link {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  color: #ffffff;
+  text-decoration: none;
+}
