@@ -1,0 +1,36 @@
+.about-project {
+  color: #ffffff;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 110px 70px;
+}
+
+.about-project__columns {
+  display: flex;
+  margin-top: 71px;
+}
+
+.about-project__column {
+  max-width: 550px;
+  margin-right: 40px;
+}
+.about-project__column:last-child {
+  margin-right: 0;
+}
+
+.about-project__column-title {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.about-project__column-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.42;
+  margin: 26px 0 0 0;
+}

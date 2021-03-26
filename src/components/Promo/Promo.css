@@ -6,10 +6,11 @@
   align-items: center;
   text-align: center;
   width: calc(100% - 80px);
+  max-width: 1200px;
   min-height: 493px;
   border-radius: 10px;
   background-color: #272727;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .promo-title {
@@ -19,5 +20,5 @@
   letter-spacing: -0.04em;
   line-height: 1.16;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
 }
