@@ -9,3 +9,10 @@
   padding-bottom: 25px;
   border-bottom: 1px solid #dadada;
 }
+
+@media screen and (max-width: 320px) {
+  .main-section-title {
+    font-size: 18px;
+    padding-bottom: 28px;
+  }
+}

@@ -39,4 +39,26 @@
   text-align: center;
   font-size: 14px;
   line-height: 1.21;
+  color: #a0a0a0;
+}
+
+@media screen and (max-width: 768px) {
+  .diagram {
+    margin-top: 93px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .diagram {
+    margin-top: 58px;
+  }
+  .diagram__text {
+    font-size: 11px;
+    line-height: 1.18;
+  }
+  .diagram__sub {
+    font-size: 11px;
+    line-height: 1.18;
+    margin-top: 9px;
+  }
 }

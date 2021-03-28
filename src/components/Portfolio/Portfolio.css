@@ -37,3 +37,33 @@
   display: flex;
   justify-content: space-between;
 }
+
+@media screen and (max-width: 768px) {
+  .portfolio {
+    padding: 0 50px;
+  }
+  .portfolio__link {
+    font-size: 28px;
+    line-height: 1.78;
+  }
+  .portfolio__list {
+    padding-bottom: 90px;
+  }
+}
+
+@media screen and (max-width: 515px) {
+  .portfolio {
+    padding: 0 14px;
+  }
+  .portfolio__title {
+    font-size: 14px;
+  }
+  .portfolio__list {
+    padding-top: 20px;
+    padding-bottom: 70px;
+  }
+  .portfolio__link {
+    font-size: 18px;
+    line-height: 1.55;
+  }
+}

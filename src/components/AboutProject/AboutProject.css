@@ -14,6 +14,7 @@
   max-width: 550px;
   margin-right: 40px;
 }
+
 .about-project__column:last-child {
   margin-right: 0;
 }
@@ -33,4 +34,39 @@
   font-size: 14px;
   line-height: 1.42;
   margin: 26px 0 0 0;
+}
+
+@media screen and (max-width: 768px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+  .about-project__column-text {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 22px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .about-project {
+    padding: 73px 18px;
+  }
+  .about-project__column-title {
+    font-size: 18px;
+    line-height: 1.22;
+  }
+  .about-project__columns {
+    display: block;
+    margin-top: 0;
+  }
+  .about-project__column {
+    max-width: 284px;
+    margin-right: 0;
+    margin-top: 60px;
+  }
+  .about-project__column-text {
+    font-size: 11px;
+    line-height: 1.45;
+    margin-top: 20px;
+  }
 }

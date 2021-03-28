@@ -1,5 +1,7 @@
 .header {
   max-width: 1280px;
+  box-sizing: border-box;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   padding: 18px 70px 0px 70px;
@@ -33,4 +35,30 @@
   border-radius: 3px;
   background-color: #3ddc84;
   margin-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    max-width: 768px;
+    padding: 18px 30px 0px 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header {
+    max-width: 320px;
+    padding: 18px 14px 0px 14px;
+  }
+  .header__button {
+    font-size: 10px;
+    line-height: 1.6;
+    padding: 5px 12px;
+    margin-right: 3px;
+  }
+  .header__button_modified {
+    margin-right: 0;
+  }
+  .header__buttons-group {
+    padding-top: 6px;
+  }
 }

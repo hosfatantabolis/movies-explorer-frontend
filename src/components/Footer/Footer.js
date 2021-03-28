@@ -9,7 +9,7 @@ function Footer() {
       </p>
       <div className='footer__columns'>
         <div className='footer__column'>
-          <p className='footer__copyright'>&copy; 2020</p>
+          <p className='footer__copyright'>&copy;2020</p>
         </div>
         <nav className='footer__column'>
           <ul className='footer__column-list'>
