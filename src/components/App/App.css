@@ -1,6 +1,6 @@
 .App {
   font-family: 'Inter', 'Arial', sans-serif;
-  font-style: normal;
+  font-style: 400;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
@@ -11,6 +11,6 @@
   width: 100%;
   background-color: #202020;
   display: block;
-  flex-direction: column;
   min-height: 100vh;
+  color: #ffffff;
 }

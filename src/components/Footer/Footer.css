@@ -1,5 +1,12 @@
 .footer {
+  margin: auto;
+  box-sizing: border-box;
+  max-width: 1280px;
   padding: 60px 70px 20px;
+}
+
+.footer_hidden {
+  display: none;
 }
 
 .footer__text {

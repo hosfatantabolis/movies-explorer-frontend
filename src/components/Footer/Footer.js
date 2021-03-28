@@ -1,9 +1,24 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './Footer.css';
 
 function Footer() {
+  const location = useLocation();
+
+  let footerVisible = false;
+  if (location.pathname === '/saved-movies') {
+    footerVisible = true;
+  } else if (location.pathname === '/movies') {
+    footerVisible = true;
+  } else if (location.pathname === '/profile') {
+    footerVisible = true;
+  } else if (location.pathname === '/') {
+    footerVisible = true;
+  } else {
+    footerVisible = false;
+  }
   return (
-    <footer className='footer'>
+    <footer className={`footer ${footerVisible ? '' : 'footer_hidden'}`}>
       <p className='footer__text'>
         Учебный проект Яндекс.Практикум х BeatFilm.
       </p>

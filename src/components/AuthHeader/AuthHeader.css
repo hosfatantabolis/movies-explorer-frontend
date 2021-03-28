@@ -1,0 +1,36 @@
+.auth-header {
+  max-width: 396px;
+  margin: auto;
+  padding: 70px 0 23px;
+}
+
+.auth-header__title {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 500;
+  margin: 40px 0 0;
+}
+
+.auth-header__logo {
+  transition: opacity 0.3s ease 0.1s;
+}
+.auth-header__logo:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+  .auth-header {
+    padding-top: 230px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .auth-header {
+    max-width: 260px;
+    padding-top: 56px;
+    text-align: center;
+  }
+  .auth-header__title {
+    margin-top: 48px;
+  }
+}
