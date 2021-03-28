@@ -28,6 +28,10 @@
   outline: none;
   color: #ffffff;
   background-color: transparent;
+  transition: opacity 0.3s ease 0.1s;
+}
+.header__button:hover {
+  opacity: 0.5;
 }
 
 .header__button_modified {

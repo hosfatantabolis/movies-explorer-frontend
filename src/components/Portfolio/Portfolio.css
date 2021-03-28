@@ -36,6 +36,10 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  transition: opacity 0.3s ease 0.1s;
+}
+.portfolio__link:hover {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 768px) {

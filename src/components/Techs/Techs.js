@@ -17,6 +17,8 @@ function Techs() {
             <a
               className='techs__link'
               href='https://developer.mozilla.org/ru/docs/Web/HTML'
+              target='_blank'
+              rel='noreferrer'
             >
               HTML
             </a>
@@ -25,6 +27,8 @@ function Techs() {
             <a
               className='techs__link'
               href='https://developer.mozilla.org/ru/docs/Web/CSS'
+              target='_blank'
+              rel='noreferrer'
             >
               CSS
             </a>
@@ -33,6 +37,8 @@ function Techs() {
             <a
               className='techs__link'
               href='https://developer.mozilla.org/ru/docs/Web/JavaScript'
+              target='_blank'
+              rel='noreferrer'
             >
               JS
             </a>
@@ -41,22 +47,39 @@ function Techs() {
             <a
               className='techs__link'
               href='https://reactjs.org/docs/getting-started.html'
+              target='_blank'
+              rel='noreferrer'
             >
               React
             </a>
           </li>
           <li className='techs__list_item'>
-            <a className='techs__link' href='https://git-scm.com/doc'>
+            <a
+              className='techs__link'
+              href='https://git-scm.com/doc'
+              target='_blank'
+              rel='noreferrer'
+            >
               Git
             </a>
           </li>
           <li className='techs__list_item'>
-            <a className='techs__link' href='https://expressjs.com/'>
+            <a
+              className='techs__link'
+              href='https://expressjs.com/'
+              target='_blank'
+              rel='noreferrer'
+            >
               Express.js
             </a>
           </li>
           <li className='techs__list_item'>
-            <a className='techs__link' href='https://docs.mongodb.com/'>
+            <a
+              className='techs__link'
+              href='https://docs.mongodb.com/'
+              target='_blank'
+              rel='noreferrer'
+            >
               mongoDB
             </a>
           </li>

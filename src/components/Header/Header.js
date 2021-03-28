@@ -6,7 +6,9 @@ import './Header.css';
 function Header() {
   return (
     <header className='header'>
-      <img src={logo} alt='Логотип' className='header__logo' />
+      <Link to='/'>
+        <img src={logo} alt='Логотип' className='header__logo' />
+      </Link>
       <div className='header__buttons-group'>
         <Link to='/signup'>
           <button className='header__button'>Регистрация</button>
