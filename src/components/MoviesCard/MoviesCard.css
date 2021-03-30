@@ -1,0 +1,41 @@
+.movies-card {
+  margin: 0;
+  padding: 0;
+  background-color: #222222;
+}
+
+.movies-card__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  align-items: center;
+}
+
+.movies-card__title {
+  margin: 0 0 9px;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.movies-card__time {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.18;
+  color: #8b8b8b;
+}
+
+.movies-card__image {
+  object-fit: cover;
+  object-position: center;
+  max-height: 203px;
+  width: 100%;
+}
+
+.movies-card__icon {
+  cursor: pointer;
+  transition: opacity 0.3s ease 0.1s;
+}
+
+.movies-card__icon:hover {
+  opacity: 0.5;
+}

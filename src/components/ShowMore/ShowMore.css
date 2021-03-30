@@ -1,0 +1,21 @@
+.show-more {
+  width: 100%;
+}
+.show-more__button {
+  width: 100%;
+  margin: 50px 0 80px;
+  background-color: #2f2f2f;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+  padding: 11px 0 9px;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: opacity 0.3s ease 0.1s;
+}
+
+.show-more__button:hover {
+  opacity: 0.5;
+}

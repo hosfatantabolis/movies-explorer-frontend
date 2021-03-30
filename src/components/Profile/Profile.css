@@ -78,3 +78,23 @@
 .profile__logout:hover {
   opacity: 0.5;
 }
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding-top: 50px;
+    padding-bottom: 269px;
+  }
+  .profile-form {
+    padding-top: 80px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .profile {
+    max-width: 260px;
+    padding-top: 72px;
+  }
+  .profile-form {
+    padding-top: 65px;
+  }
+}

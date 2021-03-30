@@ -40,7 +40,6 @@ function App() {
           <Route exact path='/profile'>
             <Header />
             <Profile />
-            <Footer />
           </Route>
           <Route exact path='/saved-movies'>
             <Header />
