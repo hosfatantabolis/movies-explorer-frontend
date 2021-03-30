@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Route,
-  useHistory,
-  Switch,
-  BrowserRouter,
-  Redirect,
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import './App.css';
 import Main from '../Main/Main.js';

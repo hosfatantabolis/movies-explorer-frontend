@@ -1,6 +1,5 @@
 import React from 'react';
 import Form from '../Form/Form';
-import { useHistory } from 'react-router-dom';
 
 import './Login.css';
 
@@ -16,7 +15,6 @@ function Login() {
     email: '',
     password: '',
   });
-  // const history = useHistory();
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -34,11 +32,6 @@ function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onRegister(data.password, data.email).then((data) => {
-    //   if (data) {
-    //     history.push('/signin');
-    //   }
-    // });
   };
   return (
     <main className='login'>
