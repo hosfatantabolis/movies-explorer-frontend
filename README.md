@@ -1,3 +1,3 @@
-# Getting Started with Create React App
+# Ссылка на статику
 
 http://movie-or-film.students.nomoredomains.rocks/
