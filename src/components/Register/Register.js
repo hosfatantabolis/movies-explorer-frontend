@@ -38,6 +38,7 @@ function Register({ onRegister }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister(data.name, data.password, data.email).then((data) => {
+      console.log(data);
       if (data.message) {
         setResponseError(data.message);
         return;
@@ -66,6 +67,7 @@ function Register({ onRegister }) {
           name='name'
           minLength='2'
           maxLength='40'
+          pattern='[a-zA-Zа-яА-Я -]+'
           className={`form__input ${
             errors.name ? 'form__input_type_error' : ''
           }`}

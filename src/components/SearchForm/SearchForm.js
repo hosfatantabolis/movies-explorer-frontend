@@ -15,7 +15,11 @@ function SearchForm() {
           src={searchIcon}
           alt='иконка поиска'
         />
-        <input className='search-form__input' placeholder='Фильм'></input>
+        <input
+          className='search-form__input'
+          placeholder='Фильм'
+          required
+        ></input>
         <button
           className='search-form__send'
           type='submit'

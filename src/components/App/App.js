@@ -106,6 +106,7 @@ function App() {
           return { message: 'Некорректно заполнено одно из полей' };
         } else {
           console.log('Неизвестная ошибка: ' + err.status);
+          return { message: 'Неизвестная ошибка: ' + err.status };
         }
         // handleInfoTooltip();
       });
@@ -118,20 +119,20 @@ function App() {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
           api.setHeaders(data.token);
-          // setEmail(email);
           setLoggedIn(true);
-          // console.log(data);
         }
       })
       .catch((err) => {
         if (err.status === 401) {
           console.log('Пользователь с таким e-mail не найден');
+          return { message: 'Пользователь с таким e-mail не найден' };
         } else if (err.status === 400) {
           console.log('Не передано одно из полей');
+          return { message: 'Не передано одно из полей' };
         } else {
           console.log('Неизвестная ошибка: ' + err.status);
+          return { message: 'Неизвестная ошибка: ' + err.status };
         }
-        // handleInfoTooltip();
       });
   };
   const handleLogout = () => {

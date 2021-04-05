@@ -12,6 +12,7 @@ function Login({ onLogin }) {
     linkAddr: '/signup',
   };
   const [data, setData] = React.useState({ email: '', password: '' });
+  const [responseError, setResponseError] = React.useState('');
   const [errors, setErrors] = React.useState({
     email: '',
     password: '',
@@ -30,12 +31,17 @@ function Login({ onLogin }) {
       ...data,
       [name]: value,
     });
+    setResponseError('');
     validate(e);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin(data.password, data.email).then((data) => {
       if (data) {
+        if (data.message) {
+          setResponseError(data.message);
+          return;
+        }
         console.log(data);
         history.push('/movies');
       }
@@ -49,6 +55,7 @@ function Login({ onLogin }) {
         data={data}
         handleChange={handleChange}
         texts={texts}
+        responseError={responseError}
       />
     </main>
   );

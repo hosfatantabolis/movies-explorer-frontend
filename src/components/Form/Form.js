@@ -60,7 +60,13 @@ function Form({
         >
           {errors.password}
         </span>
-        <span>{responseError}</span>
+        <span
+          className={`form__error ${
+            responseError ? 'form__error_visible' : ''
+          }`}
+        >
+          {responseError}
+        </span>
         <button type='submit' className='form__send' aria-label='Войти'>
           {texts.buttonText}
         </button>
