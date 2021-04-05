@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import './Login.css';
 
-function Login() {
+function Login({ onLogin }) {
   const texts = {
     buttonText: 'Войти',
     subText: 'Ещё не зарегистрированы?',
@@ -16,7 +16,7 @@ function Login() {
     email: '',
     password: '',
   });
-  // const history = useHistory();
+  const history = useHistory();
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -34,11 +34,12 @@ function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onRegister(data.password, data.email).then((data) => {
-    //   if (data) {
-    //     history.push('/signin');
-    //   }
-    // });
+    onLogin(data.password, data.email).then((data) => {
+      if (data) {
+        console.log(data);
+        history.push('/movies');
+      }
+    });
   };
   return (
     <main className='login'>

@@ -2,7 +2,15 @@ import React from 'react';
 
 import './Form.css';
 
-function Form({ handleSubmit, errors, data, handleChange, texts, children }) {
+function Form({
+  handleSubmit,
+  errors,
+  data,
+  handleChange,
+  texts,
+  responseError,
+  children,
+}) {
   return (
     <>
       <form onSubmit={handleSubmit} className='form'>
@@ -52,6 +60,7 @@ function Form({ handleSubmit, errors, data, handleChange, texts, children }) {
         >
           {errors.password}
         </span>
+        <span>{responseError}</span>
         <button type='submit' className='form__send' aria-label='Войти'>
           {texts.buttonText}
         </button>

@@ -1,12 +1,23 @@
 import React from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 import './Profile.css';
 
-function Profile() {
+function Profile({ onLogOut, onUpdateUser }) {
+  const currentUser = React.useContext(CurrentUserContext);
+
   const [data, setData] = React.useState({
-    name: 'Name',
-    email: 'email@mail.ru',
+    name: '',
+    email: '',
   });
+
+  React.useEffect(() => {
+    setData({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [currentUser]);
+
   const [errors, setErrors] = React.useState({
     name: '',
     email: '',
@@ -28,10 +39,11 @@ function Profile() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    onUpdateUser(data.email, data.name);
   };
   return (
     <main className='profile'>
-      <h1 className='profile__title'>Привет, Виталий!</h1>
+      <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
       <form className='profile-form' onSubmit={handleSubmit}>
         <label htmlFor='name' className='profile-form__label'>
           Имя
@@ -90,7 +102,9 @@ function Profile() {
           Редактировать
         </button>
       </form>
-      <button className='profile__logout'>Выйти из аккаунта</button>
+      <button className='profile__logout' onClick={onLogOut}>
+        Выйти из аккаунта
+      </button>
     </main>
   );
 }

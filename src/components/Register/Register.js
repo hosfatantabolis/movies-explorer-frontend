@@ -4,7 +4,7 @@ import Form from '../Form/Form';
 
 import './Register.css';
 
-function Register() {
+function Register({ onRegister }) {
   const texts = {
     buttonText: 'Зарегистрироваться',
     subText: 'Уже зарегистрированы?',
@@ -12,12 +12,13 @@ function Register() {
     linkAddr: '/signin',
   };
   const [data, setData] = React.useState({ name: '', email: '', password: '' });
+  const [responseError, setResponseError] = React.useState('');
   const [errors, setErrors] = React.useState({
     name: '',
     email: '',
     password: '',
   });
-  // const history = useHistory();
+  const history = useHistory();
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -31,15 +32,20 @@ function Register() {
       ...data,
       [name]: value,
     });
+    setResponseError('');
     validate(e);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // onRegister(data.password, data.email).then((data) => {
-    //   if (data) {
-    //     history.push('/signin');
-    //   }
-    // });
+    onRegister(data.name, data.password, data.email).then((data) => {
+      if (data.message) {
+        setResponseError(data.message);
+        return;
+      }
+      if (data) {
+        history.push('/signin');
+      }
+    });
   };
   return (
     <main className='register'>
@@ -49,6 +55,7 @@ function Register() {
         data={data}
         handleChange={handleChange}
         texts={texts}
+        responseError={responseError}
       >
         <label htmlFor='name' className='form__label'>
           Имя
