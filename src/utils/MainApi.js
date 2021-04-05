@@ -173,26 +173,6 @@ class Api {
       });
   }
 
-  // updateAvatar(link) {
-  //   return fetch(this.baseURL + '/users/me/avatar', {
-  //     method: 'PATCH',
-  //     headers: this.headers,
-  //     body: JSON.stringify({
-  //       avatar: link,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res;
-  //       }
-
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
   setHeaders(jwt) {
     this.headers.authorization = jwt;
   }
@@ -200,7 +180,6 @@ class Api {
 
 const options = {
   baseURL: 'https://api.movie-or-film.students.nomoredomains.rocks',
-  // baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
   },

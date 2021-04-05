@@ -30,16 +30,19 @@ function App() {
   const history = useHistory();
   const [successState, setSuccessState] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
-  console.log(loggedIn);
+  const [permission, setPermission] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({
     name: 'Загрузка...',
     email: 'Загрузка...',
+    _id: '',
   });
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       tokenCheck(jwt);
+    } else {
+      setPermission(true);
     }
   }, []);
 
@@ -56,7 +59,6 @@ function App() {
     }
   }, [loggedIn]);
 
-  const [permission, setPermission] = React.useState(false);
   const tokenCheck = (jwt) => {
     auth
       .tokenCheck(jwt)
@@ -65,10 +67,12 @@ function App() {
         console.log(res);
         setCurrentUser(res);
         setLoggedIn(true);
+        setPermission(true);
       })
       .catch((err) => {
         if (err.status === 401) {
           console.log('Переданный токен некорректен. Ошибка: ' + err.status);
+          setPermission(true);
         }
       })
       .finally(() => {
@@ -140,7 +144,7 @@ function App() {
       .setUserInfo(email, name)
       .then((res) => {
         if (res.ok) {
-          setCurrentUser({ name: name, email: email });
+          setCurrentUser({ name: name, email: email, _id: currentUser._id });
         }
       })
       .catch((err) => {
