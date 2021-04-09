@@ -9,11 +9,12 @@ function Form({
   handleChange,
   texts,
   responseError,
+  buttonDisabled,
   children,
 }) {
   return (
     <>
-      <form onSubmit={handleSubmit} className='form'>
+      <form onSubmit={handleSubmit} className='form' noValidate='novalidate'>
         {children}
         <label htmlFor='email' className='form__label'>
           E-mail
@@ -67,7 +68,12 @@ function Form({
         >
           {responseError}
         </span>
-        <button type='submit' className='form__send' aria-label='Войти'>
+        <button
+          type='submit'
+          className={`form__send ${buttonDisabled && 'form__send_disabled'}`}
+          aria-label={texts.buttonText}
+          disabled={buttonDisabled}
+        >
           {texts.buttonText}
         </button>
       </form>

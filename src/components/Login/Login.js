@@ -13,11 +13,25 @@ function Login({ onLogin }) {
   };
   const [data, setData] = React.useState({ email: '', password: '' });
   const [responseError, setResponseError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [errors, setErrors] = React.useState({
     email: '',
     password: '',
   });
+
   const history = useHistory();
+  React.useEffect(() => {
+    if (
+      errors.email === '' &&
+      errors.password === '' &&
+      data.email !== '' &&
+      data.password !== ''
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [errors, data]);
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -25,6 +39,7 @@ function Login({ onLogin }) {
       [name]: validationMessage,
     });
   }
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({
@@ -36,6 +51,11 @@ function Login({ onLogin }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (errors.password !== '' || errors.email !== '') {
+      setResponseError('Некорректно заполнено одно из полей');
+      return;
+    }
+    setButtonDisabled(true);
     onLogin(data.password, data.email).then((data) => {
       if (data) {
         if (data.message) {
@@ -56,6 +76,7 @@ function Login({ onLogin }) {
         handleChange={handleChange}
         texts={texts}
         responseError={responseError}
+        buttonDisabled={buttonDisabled}
       />
     </main>
   );

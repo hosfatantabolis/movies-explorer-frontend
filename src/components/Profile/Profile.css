@@ -34,6 +34,9 @@
   background-color: transparent;
   color: #ffffff;
 }
+.profile-form__input:focus {
+  outline: 1px solid #3ddc84;
+}
 
 .profile-form__input_type_error {
   color: #ee3465;

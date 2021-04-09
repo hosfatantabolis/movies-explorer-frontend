@@ -52,88 +52,62 @@ class Api {
     this.headers = options.headers;
   }
 
-  // getInitialCards() {
-  //   return fetch(this.baseURL + '/cards', {
-  //     headers: this.headers,
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
+  getSavedMovies() {
+    return fetch(this.baseURL + '/movies', {
+      headers: this.headers,
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
 
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     })
-  //     .then((res) => {
-  //       return res;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+        return Promise.reject({ message: `Ошибка: ${res.status}` });
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  // addCard(name, link) {
-  //   return fetch(this.baseURL + '/cards/', {
-  //     method: 'POST',
-  //     headers: this.headers,
-  //     body: JSON.stringify({
-  //       name: name,
-  //       link: link,
-  //     }),
-  //   })
-  //     .then((data) => {
-  //       return data.json();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+  saveMovie(movie) {
+    return fetch(this.baseURL + '/movies', {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: parseInt(movie.year),
+        description: movie.description,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
+        trailer: movie.trailerLink,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        movieId: parseInt(movie.id),
+        thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
+      }),
+    })
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+        return Promise.reject(`Ошибка: ${data.status}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-  // deleteCard(cardId) {
-  //   return fetch(this.baseURL + '/cards/' + cardId, {
-  //     method: 'DELETE',
-  //     headers: this.headers,
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // }
-
-  // likeCard(cardId) {
-  //   return fetch(this.baseURL + '/cards/' + cardId + '/likes/', {
-  //     method: 'PUT',
-  //     headers: this.headers,
-  //   })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // removeCardLike(cardId) {
-  //   return fetch(this.baseURL + '/cards/' + cardId + '/likes/', {
-  //     method: 'DELETE',
-  //     headers: this.headers,
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // changeLikeCardStatus(cardId, isLiked) {
-  //   if (isLiked === true) {
-  //     return this.removeCardLike(cardId);
-  //   } else {
-  //     return this.likeCard(cardId);
-  //   }
-  // }
+  deleteMovie(movieId) {
+    return fetch(this.baseURL + '/movies/' + movieId, {
+      method: 'DELETE',
+      headers: this.headers,
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 
   getUserInfo() {
     return fetch(this.baseURL + '/users/me', {
@@ -151,8 +125,6 @@ class Api {
   }
 
   setUserInfo(email, name) {
-    console.log(email);
-    console.log(name);
     return fetch(this.baseURL + '/users/me', {
       method: 'PATCH',
       headers: this.headers,
@@ -166,7 +138,7 @@ class Api {
           return res;
         }
 
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return Promise.reject({ message: `Ошибка: ${res.status}` });
       })
       .catch((err) => {
         console.log(err);

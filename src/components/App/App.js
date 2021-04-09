@@ -145,7 +145,7 @@ function App() {
       .setUserInfo(email, name)
       .then((res) => {
         if (res.ok) {
-          setCurrentUser({ name: name, email: email, _id: currentUser._id });
+          setCurrentUser({ ...currentUser, name: name, email: email });
         }
       })
       .catch((err) => {
@@ -176,7 +176,7 @@ function App() {
               {loggedIn ? (
                 <Redirect to='/movies' />
               ) : (
-                <Register onRegister={handleRegister} />
+                <Register onRegister={handleRegister} onLogin={handleLogin} />
               )}
             </Route>
             <Route exact path='/profile'>
@@ -190,19 +190,10 @@ function App() {
                 loggedIn={loggedIn}
               />
             </Route>
-            {/* <ProtectedRoute exact path='/profile'>
-              <Header />
-              <Profile
-                onLogOut={handleLogout}
-                onUpdateUser={handleUpdateProfile}
-                loggedIn={loggedIn}
-                redirectTo='/profile'
-              />
-            </ProtectedRoute> */}
             <Route exact path='/saved-movies'>
               <Header />
               <ProtectedRoute
-                component={SavedMovies}
+                component={Movies}
                 onLogOut={handleLogout}
                 loggedIn={loggedIn}
               />

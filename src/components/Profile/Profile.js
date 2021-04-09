@@ -5,7 +5,7 @@ import './Profile.css';
 
 function Profile({ onLogOut, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);
-
+  const [responseError, setResponseError] = React.useState('');
   const [data, setData] = React.useState({
     name: '',
     email: '',
@@ -30,6 +30,7 @@ function Profile({ onLogOut, onUpdateUser }) {
     });
   }
   const handleChange = (e) => {
+    setResponseError('');
     const { name, value } = e.target;
     setData({
       ...data,
@@ -39,12 +40,20 @@ function Profile({ onLogOut, onUpdateUser }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (data.name === '' || data.email === '') {
+      setResponseError('Все поля должны быть заполнены');
+      return;
+    }
     onUpdateUser(data.email, data.name);
   };
   return (
     <main className='profile'>
       <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
-      <form className='profile-form' onSubmit={handleSubmit}>
+      <form
+        className='profile-form'
+        onSubmit={handleSubmit}
+        noValidate='novalidate'
+      >
         <label htmlFor='name' className='profile-form__label'>
           Имя
           <input
@@ -93,6 +102,13 @@ function Profile({ onLogOut, onUpdateUser }) {
           id='email-error'
         >
           {errors.email}
+        </span>
+        <span
+          className={`profile-form__error ${
+            responseError ? 'profile-form__error_visible' : ''
+          }`}
+        >
+          {responseError}
         </span>
         <button
           type='submit'

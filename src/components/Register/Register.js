@@ -4,21 +4,38 @@ import Form from '../Form/Form';
 
 import './Register.css';
 
-function Register({ onRegister }) {
+function Register({ onRegister, onLogin }) {
   const texts = {
     buttonText: 'Зарегистрироваться',
     subText: 'Уже зарегистрированы?',
     linkText: 'Войти',
     linkAddr: '/signin',
   };
+
   const [data, setData] = React.useState({ name: '', email: '', password: '' });
   const [responseError, setResponseError] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [errors, setErrors] = React.useState({
     name: '',
     email: '',
     password: '',
   });
   const history = useHistory();
+
+  React.useEffect(() => {
+    if (
+      errors.name === '' &&
+      errors.email === '' &&
+      errors.password === '' &&
+      data.email !== '' &&
+      data.password !== '' &&
+      data.name !== ''
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [errors, data]);
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -37,14 +54,18 @@ function Register({ onRegister }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister(data.name, data.password, data.email).then((data) => {
-      console.log(data);
-      if (data.message) {
-        setResponseError(data.message);
+    if (errors.name !== '' || errors.password !== '' || errors.email !== '') {
+      setResponseError('Некорректно заполнено одно из полей');
+      return;
+    }
+    onRegister(data.name, data.password, data.email).then((res) => {
+      if (res.message) {
+        setResponseError(res.message);
         return;
       }
-      if (data) {
-        history.push('/signin');
+      if (res) {
+        onLogin(data.password, res.emailForResponse);
+        history.push('/movies');
       }
     });
   };
@@ -57,6 +78,7 @@ function Register({ onRegister }) {
         handleChange={handleChange}
         texts={texts}
         responseError={responseError}
+        buttonDisabled={buttonDisabled}
       >
         <label htmlFor='name' className='form__label'>
           Имя
