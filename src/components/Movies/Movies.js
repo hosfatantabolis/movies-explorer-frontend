@@ -9,7 +9,7 @@ import './Movies.css';
 
 //API
 import MoviesApi from '../../utils/MoviesApi';
-import { api } from '../../utils/MainApi';
+import api from '../../utils/MainApi';
 
 function Movies() {
   const location = useLocation();
@@ -23,33 +23,64 @@ function Movies() {
   const [savedMovieListFound, setSavedMovieListFound] = React.useState([]); //список фильмов найденных в сохраненном
   const [searchErrorVisible, setSearchErrorVisible] = React.useState(false);
   const [howManyToRender, setHowManyToRender] = React.useState(3);
-  const [initialCards, setInitialCards] = React.useState([]);
-  const [initialCardsCount, setInitialCardsCount] = React.useState([12]);
+  const [clickCounter, setClickCounter] = React.useState(1);
+
+  const [initialCards, setInitialCards] = React.useState(
+    JSON.parse(localStorage.getItem('movies')) || []
+  );
+  const [initialCardsCount, setInitialCardsCount] = React.useState(12);
+
+  const [renderedCards, setRenderedCards] = React.useState([]);
 
   const [windowSize, setWindowSize] = React.useState({
     width: undefined,
   });
+
+  React.useEffect(() => {
+    if (initialCards.length > renderedCards.length) {
+      setShowMoreVisible(true);
+    } else {
+      setShowMoreVisible(false);
+    }
+    // console.log(initialCardsCount);
+    // console.log(howManyToRender);
+    // console.log('начальные: ' + initialCards.length);
+    // console.log('отрисованные: ' + renderedCards.length);
+  }, [renderedCards, initialCards]);
+
   React.useEffect(() => {
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
       });
     }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    howManyCards();
+    return () => window.removeEventListener('resize', handleResize);
+  }, [windowSize.width, location]);
+
+  function howManyCards() {
     if (windowSize.width <= 480) {
       setInitialCardsCount(5);
       setHowManyToRender(2);
-    } else if (windowSize.width <= 768) {
+    } else if (windowSize.width <= 1000) {
       setInitialCardsCount(8);
       setHowManyToRender(2);
     } else {
       setInitialCardsCount(12);
-      setInitialCards(queryResult.slice(0, 12));
       setHowManyToRender(3);
     }
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, [windowSize.width, location]);
+  }
+
+  function handleShowMore() {
+    // setHowManyToRender(howManyToRender + clickCounter * initialCardsCount);
+    setClickCounter(clickCounter + 1);
+    setRenderedCards(
+      initialCards.slice(0, initialCardsCount + howManyToRender * clickCounter)
+    );
+    setQueryResult(renderedCards);
+  }
 
   React.useEffect(() => {
     api
@@ -60,6 +91,7 @@ function Movies() {
         }
         if (movies.length > 0 && movies !== undefined) {
           setSavedMovieList(movies);
+          setSearchErrorVisible(false);
         }
       })
       .catch((err) => console.log(err));
@@ -68,6 +100,7 @@ function Movies() {
   //если на странице сохранённых, то показывать карточки
   React.useEffect(() => {
     setSearchQuery('');
+
     if (location.pathname === '/saved-movies') {
       if (savedMovieList.length > 0) {
         setMovieListVisible(true);
@@ -78,12 +111,12 @@ function Movies() {
     }
     if (location.pathname === '/movies' && localStorage.getItem('movies')) {
       setSearchErrorVisible(false);
-      setQueryResult(JSON.parse(localStorage.getItem('movies')));
+      setQueryResult(renderedCards);
       setMovieListVisible(true);
       setPreloaderVisible(false);
     }
     setSavedMovieListFound([]); //
-  }, [location.pathname, savedMovieList.length]);
+  }, [location.pathname, savedMovieList.length, renderedCards]);
 
   function shortMovieHandle(movies) {
     return JSON.parse(movies).filter((movie) => movie.duration <= 40);
@@ -92,14 +125,8 @@ function Movies() {
   //функция поиска по фильмам
   const doTheSearch = (e) => {
     e.preventDefault();
-
-    if (searchQuery === '') {
-      setSearchErrorVisible(true);
-      return;
-    }
-
+    setClickCounter(1);
     setPreloaderVisible(true);
-    // console.log(searchQuery);
     if (location.pathname === '/movies') {
       if (!localStorage.getItem('movies')) {
         MoviesApi.getMovies()
@@ -114,6 +141,7 @@ function Movies() {
         return;
       }
 
+      // filterMovies(localStorage.getItem('movies'));
       filterMovies(localStorage.getItem('movies'));
       e.target.reset();
     }
@@ -139,12 +167,17 @@ function Movies() {
       return movieToLC.includes(searchQuery.toLowerCase());
     });
     if (filteredMovies.length > 0) {
-      console.log(filteredMovies);
+      // console.log(filteredMovies);
+      setInitialCards(filteredMovies);
+      setRenderedCards(
+        // filteredMovies.slice(0, initialCardsCount + howManyToRender)
+        filteredMovies.slice(0, initialCardsCount)
+      );
       setQueryResult(filteredMovies);
       setMovieListVisible(true);
       setSearchErrorVisible(false);
     } else {
-      console.log('nothing found');
+      // console.log('nothing found');
       setSearchErrorVisible(true);
     }
 
@@ -153,11 +186,11 @@ function Movies() {
   };
 
   const filterSavedMovies = () => {
-    console.log('filterSaved');
+    // console.log('filterSaved');
     let nW = [];
     if (checkboxChecked) {
-      nW = shortMovieHandle(savedMovieList);
-      console.log(nW);
+      nW = shortMovieHandle(JSON.stringify(savedMovieList));
+      // console.log(nW);
     } else {
       nW = savedMovieList;
     }
@@ -166,12 +199,12 @@ function Movies() {
       return movieToLC.includes(searchQuery.toLowerCase());
     });
     if (filteredMovies.length > 0) {
-      console.log(filteredMovies);
+      // console.log(filteredMovies);
       setSavedMovieListFound(filteredMovies);
       setMovieListVisible(true);
       setSearchErrorVisible(false);
     } else {
-      console.log('nothing found');
+      // console.log('nothing found');
       setSearchErrorVisible(true);
     }
 
@@ -205,7 +238,10 @@ function Movies() {
 
       <Preloader preloaderVisible={preloaderVisible} />
       {location.pathname === '/movies' && (
-        <ShowMore showMoreVisible={showMoreVisible} />
+        <ShowMore
+          showMoreVisible={showMoreVisible}
+          handleShowMore={handleShowMore}
+        />
       )}
     </main>
   );

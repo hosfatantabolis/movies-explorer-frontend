@@ -16,7 +16,6 @@ import Main from '../Main/Main.js';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
 import NotFound from '../NotFound/NotFound.js';
-import SavedMovies from '../SavedMovies/SavedMovies.js';
 import Movies from '../Movies/Movies.js';
 import Profile from '../Profile/Profile.js';
 import Header from '../Header/Header.js';
@@ -24,11 +23,10 @@ import AuthHeader from '../AuthHeader/AuthHeader';
 import Footer from '../Footer/Footer.js';
 
 // API
-import { auth, api } from '../../utils/MainApi';
+import api from '../../utils/MainApi';
 
 function App() {
   const history = useHistory();
-  const [successState, setSuccessState] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [permission, setPermission] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({
@@ -60,11 +58,10 @@ function App() {
   }, [loggedIn]);
 
   const tokenCheck = (jwt) => {
-    auth
+    api
       .tokenCheck(jwt)
       .then((res) => {
         api.setHeaders(jwt);
-        console.log(res);
         setCurrentUser(res);
         setLoggedIn(true);
         setPermission(true);
@@ -85,22 +82,12 @@ function App() {
   }
 
   const handleRegister = (name, password, email) => {
-    return auth
+    return api
       .register(name, password, email)
       .then((data) => {
-        console.log(data);
-        if (data.message) {
-          setSuccessState(false);
-          return;
-        } else {
-          setSuccessState(true);
-        }
-
-        // handleInfoTooltip();
         return data;
       })
       .catch((err) => {
-        setSuccessState(false);
         if (err.status === 400) {
           console.log('Некорректно заполнено одно из полей ');
           return { message: 'Некорректно заполнено одно из полей' };
@@ -113,7 +100,7 @@ function App() {
   };
 
   const handleLogin = (password, email) => {
-    return auth
+    return api
       .login(password, email)
       .then((data) => {
         if (data.token) {

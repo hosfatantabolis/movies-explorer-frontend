@@ -9,7 +9,7 @@ import iconDelete from '../../images/icon-delete.svg';
 
 //Стили
 import './MoviesCard.css';
-import { api } from '../../utils/MainApi';
+import api from '../../utils/MainApi';
 
 function MoviesCard({
   card,

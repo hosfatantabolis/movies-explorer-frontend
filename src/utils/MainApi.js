@@ -1,8 +1,17 @@
-class Auth {
+// class Auth {
+//   constructor(options) {
+//     this.baseURL = options.baseURL;
+//     this.headers = options.headers;
+//   }
+
+// }
+
+class Api {
   constructor(options) {
     this.baseURL = options.baseURL;
     this.headers = options.headers;
   }
+
   register(name, password, email) {
     return fetch(this.baseURL + '/signup', {
       method: 'POST',
@@ -43,13 +52,6 @@ class Auth {
       }
       return Promise.reject(res);
     });
-  }
-}
-
-class Api {
-  constructor(options) {
-    this.baseURL = options.baseURL;
-    this.headers = options.headers;
   }
 
   getSavedMovies() {
@@ -151,11 +153,11 @@ class Api {
 }
 
 const options = {
-  baseURL: 'https://api.movie-or-film.students.nomoredomains.rocks',
+  baseURL: 'https://api.hello-world.students.nomoredomains.rocks',
   headers: {
     'Content-Type': 'application/json',
   },
 };
-const auth = new Auth(options);
+
 const api = new Api(options);
-module.exports = { auth, api };
+export default api;

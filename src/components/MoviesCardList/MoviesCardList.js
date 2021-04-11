@@ -11,6 +11,8 @@ function MoviesCardList({
   setSavedMovieList,
   savedMovieListFound,
   checkboxChecked,
+  isSaved,
+  setIsSaved,
 }) {
   const location = useLocation();
   const [sm, setSm] = React.useState([]);
