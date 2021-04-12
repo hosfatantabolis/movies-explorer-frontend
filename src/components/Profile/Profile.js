@@ -1,10 +1,8 @@
 import React from 'react';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 import './Profile.css';
 
-function Profile({ onLogOut, onUpdateUser }) {
-  const currentUser = React.useContext(CurrentUserContext);
+function Profile({ onLogOut, onUpdateUser, currentUser }) {
   const [responseError, setResponseError] = React.useState('');
   const [response, setResponse] = React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(true);

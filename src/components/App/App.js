@@ -175,6 +175,7 @@ function App() {
                 component={Profile}
                 onLogOut={handleLogout}
                 onUpdateUser={handleUpdateProfile}
+                currentUser={currentUser}
                 loggedIn={loggedIn}
               />
             </Route>
@@ -182,6 +183,7 @@ function App() {
               <Header />
               <ProtectedRoute
                 component={Movies}
+                currentUser={currentUser}
                 onLogOut={handleLogout}
                 loggedIn={loggedIn}
               />
@@ -191,6 +193,7 @@ function App() {
               <Header />
               <ProtectedRoute
                 component={Movies}
+                currentUser={currentUser}
                 onLogOut={handleLogout}
                 loggedIn={loggedIn}
               />

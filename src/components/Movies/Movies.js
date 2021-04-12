@@ -4,6 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import ShowMore from '../ShowMore/ShowMore';
 import Preloader from '../Preloader/Preloader';
+import SHORT_MOVIE_LENGTH from '../../utils/constants';
 
 import './Movies.css';
 
@@ -119,7 +120,9 @@ function Movies() {
   }, [location.pathname, savedMovieList.length, renderedCards]);
 
   function shortMovieHandle(movies) {
-    return JSON.parse(movies).filter((movie) => movie.duration <= 40);
+    return JSON.parse(movies).filter(
+      (movie) => movie.duration <= SHORT_MOVIE_LENGTH
+    );
   }
 
   //функция поиска по фильмам
