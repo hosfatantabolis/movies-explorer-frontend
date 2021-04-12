@@ -1,3 +1,3 @@
 # Ссылка на статику
 
-https://movie-or-film.students.nomoredomains.rocks/
+https://hello-world.students.nomoredomains.rocks/
