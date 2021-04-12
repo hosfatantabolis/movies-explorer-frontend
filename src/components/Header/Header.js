@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 import './Header.css';
 import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({ loggedIn }) {
   const location = useLocation();
 
   let headerVisible = false;
@@ -16,9 +16,12 @@ function Header() {
   ) {
     headerVisible = true;
     navigationVisible = true;
-  } else if (location.pathname === '/') {
+  } else if (location.pathname === '/' && !loggedIn) {
     headerVisible = true;
     navigationVisible = false;
+  } else if (location.pathname === '/' && loggedIn) {
+    headerVisible = true;
+    navigationVisible = true;
   } else {
     headerVisible = false;
   }

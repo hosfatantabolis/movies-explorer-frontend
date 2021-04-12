@@ -41,6 +41,15 @@
 .profile-form__input_type_error {
   color: #ee3465;
 }
+.profile-form__response {
+  display: none;
+}
+.profile-form__response_saved {
+  display: block;
+  color: #3ddc84;
+  font-size: 15px;
+  line-height: 1.2;
+}
 .profile-form__error {
   display: none;
 }
@@ -60,6 +69,11 @@
   line-height: 1.23;
   cursor: pointer;
   transition: opacity 0.3s ease 0.1s;
+}
+
+.profile-form__send_disabled {
+  color: #8b8b8b;
+  pointer-events: none;
 }
 
 .profile-form__send:hover {

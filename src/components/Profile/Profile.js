@@ -6,10 +6,20 @@ import './Profile.css';
 function Profile({ onLogOut, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);
   const [responseError, setResponseError] = React.useState('');
+  const [response, setResponse] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [data, setData] = React.useState({
     name: '',
     email: '',
   });
+
+  React.useEffect(() => {
+    if (data.name === currentUser.name && data.email === currentUser.email) {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [data]);
 
   React.useEffect(() => {
     setData({
@@ -22,6 +32,7 @@ function Profile({ onLogOut, onUpdateUser }) {
     name: '',
     email: '',
   });
+
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -31,6 +42,7 @@ function Profile({ onLogOut, onUpdateUser }) {
   }
   const handleChange = (e) => {
     setResponseError('');
+    setResponse('');
     const { name, value } = e.target;
     setData({
       ...data,
@@ -44,7 +56,13 @@ function Profile({ onLogOut, onUpdateUser }) {
       setResponseError('Все поля должны быть заполнены');
       return;
     }
-    onUpdateUser(data.email, data.name);
+    onUpdateUser(data.email, data.name).then((res) => {
+      if (res.message) {
+        setResponseError(res.message);
+      } else {
+        setResponse('Данные успешно сохранены');
+      }
+    });
   };
   return (
     <main className='profile'>
@@ -110,9 +128,18 @@ function Profile({ onLogOut, onUpdateUser }) {
         >
           {responseError}
         </span>
+        <span
+          className={`profile-form__response ${
+            response ? 'profile-form__response_saved' : ''
+          }`}
+        >
+          {response}
+        </span>
         <button
           type='submit'
-          className='profile-form__send'
+          className={`profile-form__send ${
+            buttonDisabled && 'profile-form__send_disabled'
+          }`}
           aria-label='Редактировать'
         >
           Редактировать

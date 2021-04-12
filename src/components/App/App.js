@@ -123,19 +123,18 @@ function App() {
       });
   };
   const handleLogout = () => {
-    // history.push('/');
     localStorage.removeItem('jwt');
-
     setLoggedIn(false);
   };
 
   const handleUpdateProfile = (email, name) => {
-    api
+    return api
       .setUserInfo(email, name)
       .then((res) => {
         if (res.ok) {
           setCurrentUser({ ...currentUser, name: name, email: email });
         }
+        return res;
       })
       .catch((err) => {
         console.log(err);
@@ -148,7 +147,7 @@ function App() {
         <BrowserRouter history={history}>
           <Switch>
             <Route exact path='/'>
-              <Header />
+              <Header loggedIn={loggedIn} />
               <Main />
               <Footer />
             </Route>
