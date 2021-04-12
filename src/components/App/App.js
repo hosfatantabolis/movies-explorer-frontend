@@ -123,7 +123,9 @@ function App() {
       });
   };
   const handleLogout = () => {
+    // history.push('/');
     localStorage.removeItem('jwt');
+
     setLoggedIn(false);
   };
 
