@@ -1,11 +1,3 @@
-// class Auth {
-//   constructor(options) {
-//     this.baseURL = options.baseURL;
-//     this.headers = options.headers;
-//   }
-
-// }
-
 class Api {
   constructor(options) {
     this.baseURL = options.baseURL;
@@ -106,9 +98,16 @@ class Api {
     return fetch(this.baseURL + '/movies/' + movieId, {
       method: 'DELETE',
       headers: this.headers,
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   getUserInfo() {
