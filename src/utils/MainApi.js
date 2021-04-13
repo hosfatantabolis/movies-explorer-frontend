@@ -59,9 +59,6 @@ class Api {
       })
       .then((res) => {
         return res;
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -82,47 +79,35 @@ class Api {
         movieId: parseInt(movie.id),
         thumbnail: `https://api.nomoreparties.co${movie.image.url}`,
       }),
-    })
-      .then((data) => {
-        if (data.ok) {
-          return data.json();
-        }
-        return Promise.reject(`Ошибка: ${data.status}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((data) => {
+      if (data.ok) {
+        return data.json();
+      }
+      return Promise.reject(`Ошибка: ${data.status}`);
+    });
   }
 
   deleteMovie(movieId) {
     return fetch(this.baseURL + '/movies/' + movieId, {
       method: 'DELETE',
       headers: this.headers,
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   getUserInfo() {
     return fetch(this.baseURL + '/users/me', {
       headers: this.headers,
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
 
   setUserInfo(email, name) {
@@ -133,17 +118,13 @@ class Api {
         email: email,
         name: name,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res;
-        }
+    }).then((res) => {
+      if (res.ok) {
+        return res;
+      }
 
-        return Promise.reject({ message: `Ошибка: ${res.status}` });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      return Promise.reject({ message: `Ошибка: ${res.status}` });
+    });
   }
 
   setHeaders(jwt) {

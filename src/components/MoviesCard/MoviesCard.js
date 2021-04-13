@@ -48,12 +48,22 @@ function MoviesCard({
         if (card[key] === null || card[key] === '') card[key] = 'нет данных';
       }
 
-      api.saveMovie(card);
-      setIsSaved(true);
+      api
+        .saveMovie(card)
+        .then((res) => {
+          if (res) {
+            setIsSaved(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       savedMovies.forEach((savedMovie) => {
         if (savedMovie.movieId === card.id) {
-          api.deleteMovie(savedMovie._id);
+          api.deleteMovie(savedMovie._id).catch((err) => {
+            console.log(err);
+          });
         }
       });
       setIsSaved(false);
@@ -61,7 +71,9 @@ function MoviesCard({
   };
 
   const unsave = () => {
-    api.deleteMovie(card._id);
+    api.deleteMovie(card._id).catch((err) => {
+      console.log(err);
+    });
     const newSavedMoviesList = savedMovies.filter(function (c) {
       return c._id !== card._id;
     });

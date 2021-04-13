@@ -54,13 +54,17 @@ function Profile({ onLogOut, onUpdateUser, currentUser }) {
       setResponseError('Все поля должны быть заполнены');
       return;
     }
-    onUpdateUser(data.email, data.name).then((res) => {
-      if (res.message) {
-        setResponseError(res.message);
-      } else {
-        setResponse('Данные успешно сохранены');
-      }
-    });
+    onUpdateUser(data.email, data.name)
+      .then((res) => {
+        if (res.message) {
+          setResponseError(res.message);
+        } else {
+          setResponse('Данные успешно сохранены');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <main className='profile'>

@@ -17,9 +17,6 @@ class MoviesApi {
       })
       .then((res) => {
         return res;
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 }
