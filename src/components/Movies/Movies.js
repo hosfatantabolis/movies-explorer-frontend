@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import ShowMore from '../ShowMore/ShowMore';
 import Preloader from '../Preloader/Preloader';
-import SHORT_MOVIE_LENGTH from '../../utils/constants';
+import { SHORT_MOVIE_LENGTH } from '../../utils/constants';
 
 import './Movies.css';
 
@@ -38,18 +38,6 @@ function Movies() {
   });
 
   React.useEffect(() => {
-    if (initialCards.length > renderedCards.length) {
-      setShowMoreVisible(true);
-    } else {
-      setShowMoreVisible(false);
-    }
-    // console.log(initialCardsCount);
-    // console.log(howManyToRender);
-    // console.log('начальные: ' + initialCards.length);
-    // console.log('отрисованные: ' + renderedCards.length);
-  }, [renderedCards, initialCards]);
-
-  React.useEffect(() => {
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
@@ -74,13 +62,77 @@ function Movies() {
     }
   }
 
+  //если в локальном хранилище есть что-то, то показываем
+  React.useEffect(() => {
+    if (initialCards.length > 0) {
+      setQueryResult(initialCards);
+      setRenderedCards(initialCards.slice(0, initialCardsCount));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (queryResult.length > renderedCards.length) {
+      setShowMoreVisible(true);
+    } else {
+      setShowMoreVisible(false);
+    }
+
+    if (queryResult.length <= 0) {
+      setMovieListVisible(false);
+    }
+  }, [renderedCards, queryResult]);
+
+  function search(e) {
+    setClickCounter(1);
+    e.preventDefault();
+    if (location.pathname === '/movies') {
+      if (!localStorage.getItem('movies')) {
+        MoviesApi.getMovies()
+          .then((movieList) => {
+            localStorage.setItem('movies', JSON.stringify(movieList));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        return;
+      }
+      const filteredMovies = filter(initialCards);
+      if (filteredMovies.length <= 0) {
+        setSearchErrorVisible(true);
+      }
+      setQueryResult(filteredMovies);
+      setRenderedCards(filteredMovies.slice(0, initialCardsCount));
+    } else {
+      const filteredMovies = filter(savedMovieList);
+      setQueryResult(filteredMovies);
+      setSavedMovieListFound(filteredMovies);
+    }
+  }
+
+  function filter(movieList) {
+    const filteredMovies = movieList.filter((movie) => {
+      const movieToLC = movie.nameRU.toLowerCase();
+      return movieToLC.includes(searchQuery.toLowerCase());
+    });
+    if (checkboxChecked) {
+      return handleShortFilms(filteredMovies);
+    }
+    return filteredMovies;
+  }
+
+  function handleShortFilms(movieList) {
+    console.log(movieList);
+    return movieList.filter((movie) => {
+      console.log(movie.duration);
+      return movie.duration <= SHORT_MOVIE_LENGTH;
+    });
+  }
+
   function handleShowMore() {
-    // setHowManyToRender(howManyToRender + clickCounter * initialCardsCount);
     setClickCounter(clickCounter + 1);
     setRenderedCards(
-      initialCards.slice(0, initialCardsCount + howManyToRender * clickCounter)
+      queryResult.slice(0, initialCardsCount + howManyToRender * clickCounter)
     );
-    setQueryResult(renderedCards);
   }
 
   React.useEffect(() => {
@@ -97,14 +149,13 @@ function Movies() {
             setQueryResult(movies);
           }
         }
-        console.log(movies);
       })
       .catch((err) => console.log(err));
   }, [location]);
 
   //если на странице сохранённых, то показывать карточки
   React.useEffect(() => {
-    setSearchQuery('');
+    // setSearchQuery('');
 
     if (location.pathname === '/saved-movies') {
       if (savedMovieList.length > 0) {
@@ -116,117 +167,26 @@ function Movies() {
     }
     if (location.pathname === '/movies' && localStorage.getItem('movies')) {
       setSearchErrorVisible(false);
-      setQueryResult(renderedCards);
+      setRenderedCards(initialCards.slice(0, initialCardsCount));
+      //   console.log(renderedCards);
+      //   console.log(initialCards);
+      //   console.log(queryResult);
+      //   //   setQueryResult();
       setMovieListVisible(true);
       setPreloaderVisible(false);
     }
     setSavedMovieListFound([]); //
-  }, [location.pathname, savedMovieList.length, renderedCards]);
-
-  function shortMovieHandle(movies) {
-    return JSON.parse(movies).filter(
-      (movie) => movie.duration <= SHORT_MOVIE_LENGTH
-    );
-  }
-
-  //функция поиска по фильмам
-  const doTheSearch = (e) => {
-    e.preventDefault();
-    setClickCounter(1);
-    setPreloaderVisible(true);
-    if (location.pathname === '/movies') {
-      if (!localStorage.getItem('movies')) {
-        MoviesApi.getMovies()
-          .then((movieList) => {
-            localStorage.setItem('movies', JSON.stringify(movieList));
-            filterMovies(localStorage.getItem('movies'));
-            e.target.reset();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        return;
-      }
-
-      // filterMovies(localStorage.getItem('movies'));
-      filterMovies(localStorage.getItem('movies'));
-      e.target.reset();
-    }
-    if (location.pathname === '/saved-movies') {
-      filterSavedMovies();
-      e.target.reset();
-    }
-    setCheckboxChecked(false);
-    setSearchQuery('');
-  };
-
-  //фильтр по запросу
-  const filterMovies = (movieList) => {
-    let nW = [];
-    if (checkboxChecked) {
-      nW = JSON.stringify(shortMovieHandle(movieList));
-      //console.log(nW);
-    } else {
-      nW = movieList;
-    }
-    const filteredMovies = JSON.parse(nW).filter((movie) => {
-      const movieToLC = movie.nameRU.toLowerCase();
-      return movieToLC.includes(searchQuery.toLowerCase());
-    });
-    if (filteredMovies.length > 0) {
-      // console.log(filteredMovies);
-      setInitialCards(filteredMovies);
-      setRenderedCards(
-        // filteredMovies.slice(0, initialCardsCount + howManyToRender)
-        filteredMovies.slice(0, initialCardsCount)
-      );
-      setQueryResult(filteredMovies);
-      setMovieListVisible(true);
-      setSearchErrorVisible(false);
-    } else {
-      // console.log('nothing found');
-      setSearchErrorVisible(true);
-    }
-
-    setPreloaderVisible(false);
-    //console.log(queryResult);
-  };
-
-  const filterSavedMovies = () => {
-    // console.log('filterSaved');
-    let nW = [];
-    if (checkboxChecked) {
-      nW = shortMovieHandle(JSON.stringify(savedMovieList));
-      // console.log(nW);
-    } else {
-      nW = savedMovieList;
-    }
-    const filteredMovies = nW.filter((movie) => {
-      const movieToLC = movie.nameRU.toLowerCase();
-      return movieToLC.includes(searchQuery.toLowerCase());
-    });
-    if (filteredMovies.length > 0) {
-      // console.log(filteredMovies);
-      setSavedMovieListFound(filteredMovies);
-      setMovieListVisible(true);
-      setSearchErrorVisible(false);
-    } else {
-      // console.log('nothing found');
-      setSearchErrorVisible(true);
-    }
-
-    setPreloaderVisible(false);
-    //console.log(queryResult);
-  };
+  }, [location.pathname, savedMovieList.length]);
 
   return (
     <main className='movies'>
       <SearchForm
-        handleSearch={doTheSearch}
+        handleSearch={search}
         // searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         checkboxChecked={checkboxChecked}
         setCheckboxChecked={setCheckboxChecked}
+        // handleShortFilms={handleShortFilms}
       />
       {searchErrorVisible ||
       (!localStorage.getItem('movies') && location.pathname === '/movies') ? (
@@ -235,7 +195,7 @@ function Movies() {
         </p>
       ) : (
         <MoviesCardList
-          movies={queryResult}
+          movies={renderedCards}
           savedMovies={savedMovieList}
           savedMovieListFound={savedMovieListFound}
           setSavedMovieList={setSavedMovieList}
@@ -256,3 +216,102 @@ function Movies() {
 }
 
 export default Movies;
+
+//   React.useEffect(() => {
+//     if (initialCards.length > renderedCards.length) {
+//       setShowMoreVisible(true);
+//     } else {
+//       setShowMoreVisible(false);
+//     }
+//     if (initialCards) {
+//       console.log(initialCards);
+//       setMovieListVisible(true);
+//       setQueryResult(initialCards);
+//     }
+//     // console.log(initialCardsCount);
+//     // console.log(howManyToRender);
+//     // console.log('начальные: ' + initialCards.length);
+//     // console.log('отрисованные: ' + renderedCards.length);
+//   }, [renderedCards, initialCards]);
+
+//   function shortMovieHandle(movies) {
+//     return JSON.parse(movies).filter(
+//       (movie) => movie.duration <= SHORT_MOVIE_LENGTH
+//     );
+//   }
+
+//   //функция поиска по фильмам
+//   const doTheSearch = (e) => {
+//     e.preventDefault();
+//     setClickCounter(1);
+//     setPreloaderVisible(true);
+//     if (location.pathname === '/movies') {
+//       if (!localStorage.getItem('movies')) {
+//         MoviesApi.getMovies()
+//           .then((movieList) => {
+//             localStorage.setItem('movies', JSON.stringify(movieList));
+//             filterMovies(localStorage.getItem('movies'));
+//             e.target.reset();
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//         return;
+//       } else {
+//         filterMovies(localStorage.getItem('movies'));
+//       }
+//       e.target.reset();
+//     }
+//     if (location.pathname === '/saved-movies') {
+//       filterSavedMovies();
+//       e.target.reset();
+//     }
+//     setCheckboxChecked(false);
+//     setSearchQuery('');
+//   };
+
+//   //фильтр по запросу
+//   const filterMovies = (movieList) => {
+//     let nW = [];
+//     if (checkboxChecked) {
+//       nW = JSON.stringify(shortMovieHandle(movieList));
+//     } else {
+//       nW = movieList;
+//     }
+//     const filteredMovies = JSON.parse(nW).filter((movie) => {
+//       const movieToLC = movie.nameRU.toLowerCase();
+//       return movieToLC.includes(searchQuery.toLowerCase());
+//     });
+//     if (filteredMovies.length > 0) {
+//       setInitialCards(filteredMovies);
+//       setRenderedCards(filteredMovies.slice(0, initialCardsCount));
+//       setQueryResult(filteredMovies);
+//       setMovieListVisible(true);
+//       setSearchErrorVisible(false);
+//     } else {
+//       setSearchErrorVisible(true);
+//     }
+//     setPreloaderVisible(false);
+//   };
+
+//   const filterSavedMovies = () => {
+//     let nW = [];
+//     if (checkboxChecked) {
+//       nW = shortMovieHandle(JSON.stringify(savedMovieList));
+//     } else {
+//       nW = savedMovieList;
+//     }
+//     const filteredMovies = nW.filter((movie) => {
+//       const movieToLC = movie.nameRU.toLowerCase();
+//       return movieToLC.includes(searchQuery.toLowerCase());
+//     });
+//     if (filteredMovies.length > 0) {
+//       setSavedMovieListFound(filteredMovies);
+//       setMovieListVisible(true);
+//       setSearchErrorVisible(false);
+//     } else {
+//       setSearchErrorVisible(true);
+//     }
+
+//     setPreloaderVisible(false);
+//   };

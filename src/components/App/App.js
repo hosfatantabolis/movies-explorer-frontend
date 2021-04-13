@@ -16,8 +16,7 @@ import Main from '../Main/Main.js';
 import Login from '../Login/Login.js';
 import Register from '../Register/Register.js';
 import NotFound from '../NotFound/NotFound.js';
-// import Movies from '../Movies/Movies.js';
-import Movies2 from '../Movies/Movies2.js';
+import Movies from '../Movies/Movies.js';
 import Profile from '../Profile/Profile.js';
 import Header from '../Header/Header.js';
 import AuthHeader from '../AuthHeader/AuthHeader';
@@ -183,7 +182,7 @@ function App() {
             <Route exact path='/saved-movies'>
               <Header />
               <ProtectedRoute
-                component={Movies2}
+                component={Movies}
                 currentUser={currentUser}
                 onLogOut={handleLogout}
                 loggedIn={loggedIn}
@@ -193,7 +192,7 @@ function App() {
             <Route exact path='/movies'>
               <Header />
               <ProtectedRoute
-                component={Movies2}
+                component={Movies}
                 currentUser={currentUser}
                 onLogOut={handleLogout}
                 loggedIn={loggedIn}
