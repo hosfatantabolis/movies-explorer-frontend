@@ -33,7 +33,7 @@ function MoviesCardList({
   return (
     <ul
       className={`movies-card-list ${
-        !movieListVisible && 'movies-card-list_hidden'
+        !movieListVisible ? 'movies-card-list_hidden' : ''
       }`}
     >
       {location.pathname === '/movies' &&

@@ -1,7 +1,10 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ handleCheck }) {
+function FilterCheckbox({ checkboxChecked, setCheckboxChecked }) {
+  const handleCheck = () => {
+    setCheckboxChecked(!checkboxChecked);
+  };
   return (
     <div className='filter-checkbox'>
       <label className='filter-checkbox__label'>

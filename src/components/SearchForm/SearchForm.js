@@ -11,9 +11,9 @@ function SearchForm({
 }) {
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
 
-  const handleCheck = () => {
-    setCheckboxChecked(!checkboxChecked);
-  };
+  // const handleCheck = () => {
+  //   setCheckboxChecked(!checkboxChecked);
+  // };
 
   //сеттим введенные данные в стейт
   function handleChange(e) {
@@ -53,7 +53,10 @@ function SearchForm({
           Найти
         </button>
       </div>
-      <FilterCheckbox handleCheck={handleCheck} />
+      <FilterCheckbox
+        checkboxChecked={checkboxChecked}
+        setCheckboxChecked={setCheckboxChecked}
+      />
     </form>
   );
 }

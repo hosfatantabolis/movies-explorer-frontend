@@ -93,7 +93,11 @@ function Movies() {
         if (movies.length > 0 && movies !== undefined) {
           setSavedMovieList(movies);
           setSearchErrorVisible(false);
+          if (location.pathname === '/saved-movies') {
+            setQueryResult(movies);
+          }
         }
+        console.log(movies);
       })
       .catch((err) => console.log(err));
   }, [location]);
@@ -224,7 +228,8 @@ function Movies() {
         checkboxChecked={checkboxChecked}
         setCheckboxChecked={setCheckboxChecked}
       />
-      {searchErrorVisible || !localStorage.getItem('movies') ? (
+      {searchErrorVisible ||
+      (!localStorage.getItem('movies') && location.pathname === '/movies') ? (
         <p className='movies_error'>
           Ничего не найдено. Попробуйте изменить запрос
         </p>
