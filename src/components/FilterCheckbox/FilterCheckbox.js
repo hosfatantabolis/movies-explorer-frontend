@@ -11,7 +11,9 @@ function FilterCheckbox({ checkboxChecked, setCheckboxChecked }) {
         <input
           className='filter-checkbox__input'
           type='checkbox'
-          onClick={handleCheck}
+          onClick={() => {
+            setCheckboxChecked(!checkboxChecked);
+          }}
         />
         <span className='filter-checkbox__slider'></span>
       </label>

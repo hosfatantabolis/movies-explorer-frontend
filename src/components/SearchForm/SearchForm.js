@@ -19,6 +19,7 @@ function SearchForm({
   function handleChange(e) {
     if (e.target.value === '') {
       setButtonDisabled(true);
+      setSearchQuery('');
     } else {
       setButtonDisabled(false);
       setSearchQuery(e.target.value);
