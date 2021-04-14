@@ -70,6 +70,7 @@ function Movies() {
   React.useEffect(() => {
     // setRenderedCards([]);
     // console.log(renderedCards);
+    setSearchQuery('');
     api
       .getSavedMovies()
       .then((movies) => {

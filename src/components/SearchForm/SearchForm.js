@@ -17,12 +17,12 @@ function SearchForm({
 
   //сеттим введенные данные в стейт
   function handleChange(e) {
+    setSearchQuery(e.target.value);
     if (e.target.value === '') {
       setButtonDisabled(true);
-      setSearchQuery('');
+      // setSearchQuery('');
     } else {
       setButtonDisabled(false);
-      setSearchQuery(e.target.value);
     }
   }
 

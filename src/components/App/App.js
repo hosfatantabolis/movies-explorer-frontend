@@ -175,28 +175,17 @@ function App() {
                 component={Profile}
                 onLogOut={handleLogout}
                 onUpdateUser={handleUpdateProfile}
-                currentUser={currentUser}
                 loggedIn={loggedIn}
               />
             </Route>
             <Route exact path='/saved-movies'>
               <Header />
-              <ProtectedRoute
-                component={Movies}
-                currentUser={currentUser}
-                onLogOut={handleLogout}
-                loggedIn={loggedIn}
-              />
+              <ProtectedRoute component={Movies} loggedIn={loggedIn} />
               <Footer />
             </Route>
             <Route exact path='/movies'>
               <Header />
-              <ProtectedRoute
-                component={Movies}
-                currentUser={currentUser}
-                onLogOut={handleLogout}
-                loggedIn={loggedIn}
-              />
+              <ProtectedRoute component={Movies} loggedIn={loggedIn} />
               <Footer />
             </Route>
             <Route exact path='/*'>
