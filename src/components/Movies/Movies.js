@@ -182,6 +182,7 @@ function Movies() {
   function search(e) {
     e.preventDefault();
     handleSearch();
+    e.target.reset();
   }
 
   function filter(movieList) {
