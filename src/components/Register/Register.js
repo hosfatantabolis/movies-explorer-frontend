@@ -1,5 +1,6 @@
 import React from 'react';
 import Form from '../Form/Form';
+import { useHistory } from 'react-router-dom';
 
 import './Register.css';
 
