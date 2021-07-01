@@ -2,10 +2,19 @@ import React from 'react';
 
 import './Form.css';
 
-function Form({ handleSubmit, errors, data, handleChange, texts, children }) {
+function Form({
+  handleSubmit,
+  errors,
+  data,
+  handleChange,
+  texts,
+  responseError,
+  buttonDisabled,
+  children,
+}) {
   return (
     <>
-      <form onSubmit={handleSubmit} className='form'>
+      <form onSubmit={handleSubmit} className='form' noValidate='novalidate'>
         {children}
         <label htmlFor='email' className='form__label'>
           E-mail
@@ -52,7 +61,19 @@ function Form({ handleSubmit, errors, data, handleChange, texts, children }) {
         >
           {errors.password}
         </span>
-        <button type='submit' className='form__send' aria-label='Войти'>
+        <span
+          className={`form__error ${
+            responseError ? 'form__error_visible' : ''
+          }`}
+        >
+          {responseError}
+        </span>
+        <button
+          type='submit'
+          className={`form__send ${buttonDisabled && 'form__send_disabled'}`}
+          aria-label={texts.buttonText}
+          disabled={buttonDisabled}
+        >
           {texts.buttonText}
         </button>
       </form>

@@ -22,6 +22,9 @@
   font-size: 28px;
   line-height: 1.21;
 }
+.search-form__input:focus {
+  outline: 1px solid #3ddc84;
+}
 
 .search-form__send {
   width: 58px;
@@ -36,6 +39,10 @@
   color: #ffffff;
   cursor: pointer;
   transition: opacity 0.3s ease 0.1s;
+}
+.search-form__send_disabled {
+  pointer-events: none;
+  background-color: #8b8b8b;
 }
 .search-form__send:hover {
   opacity: 0.5;

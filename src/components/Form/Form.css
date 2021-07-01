@@ -21,6 +21,11 @@
   box-sizing: border-box;
   color: #ffffff;
 }
+
+.form__input:focus {
+  outline: 1px solid #3ddc84;
+}
+
 .form__input_type_error {
   color: #ee3465;
 }
@@ -40,6 +45,12 @@
   cursor: pointer;
   transition: opacity 0.3s ease 0.1s;
 }
+
+.form__send_disabled {
+  background-color: #8b8b8b;
+  pointer-events: none;
+}
+
 .form__send:hover {
   opacity: 0.5;
 }

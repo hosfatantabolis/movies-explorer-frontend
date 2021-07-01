@@ -1,16 +1,38 @@
 import React from 'react';
 
 import './Profile.css';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function Profile() {
+function Profile({ onLogOut, onUpdateUser }) {
+  const currentUser = React.useContext(CurrentUserContext);
+  const [responseError, setResponseError] = React.useState('');
+  const [response, setResponse] = React.useState('');
+  const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [data, setData] = React.useState({
-    name: 'Name',
-    email: 'email@mail.ru',
+    name: '',
+    email: '',
   });
+
+  React.useEffect(() => {
+    if (data.name === currentUser.name && data.email === currentUser.email) {
+      setButtonDisabled(true);
+    } else {
+      setButtonDisabled(false);
+    }
+  }, [data]);
+
+  React.useEffect(() => {
+    setData({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [currentUser]);
+
   const [errors, setErrors] = React.useState({
     name: '',
     email: '',
   });
+
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -19,6 +41,8 @@ function Profile() {
     });
   }
   const handleChange = (e) => {
+    setResponseError('');
+    setResponse('');
     const { name, value } = e.target;
     setData({
       ...data,
@@ -28,11 +52,30 @@ function Profile() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (data.name === '' || data.email === '') {
+      setResponseError('Все поля должны быть заполнены');
+      return;
+    }
+    onUpdateUser(data.email, data.name)
+      .then((res) => {
+        if (res.message) {
+          setResponseError(res.message);
+        } else {
+          setResponse('Данные успешно сохранены');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <main className='profile'>
-      <h1 className='profile__title'>Привет, Виталий!</h1>
-      <form className='profile-form' onSubmit={handleSubmit}>
+      <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
+      <form
+        className='profile-form'
+        onSubmit={handleSubmit}
+        noValidate='novalidate'
+      >
         <label htmlFor='name' className='profile-form__label'>
           Имя
           <input
@@ -82,15 +125,33 @@ function Profile() {
         >
           {errors.email}
         </span>
+        <span
+          className={`profile-form__error ${
+            responseError ? 'profile-form__error_visible' : ''
+          }`}
+        >
+          {responseError}
+        </span>
+        <span
+          className={`profile-form__response ${
+            response ? 'profile-form__response_saved' : ''
+          }`}
+        >
+          {response}
+        </span>
         <button
           type='submit'
-          className='profile-form__send'
+          className={`profile-form__send ${
+            buttonDisabled && 'profile-form__send_disabled'
+          }`}
           aria-label='Редактировать'
         >
           Редактировать
         </button>
       </form>
-      <button className='profile__logout'>Выйти из аккаунта</button>
+      <button className='profile__logout' onClick={onLogOut}>
+        Выйти из аккаунта
+      </button>
     </main>
   );
 }
