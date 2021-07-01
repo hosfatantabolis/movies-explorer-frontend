@@ -1,6 +1,5 @@
 import React from 'react';
 import Form from '../Form/Form';
-import { useHistory } from 'react-router-dom';
 
 import './Login.css';
 
@@ -32,6 +31,7 @@ function Login({ onLogin }) {
       setButtonDisabled(true);
     }
   }, [errors, data]);
+
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -51,6 +51,7 @@ function Login({ onLogin }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (errors.password !== '' || errors.email !== '') {
       setResponseError('Некорректно заполнено одно из полей');
       return;
@@ -66,6 +67,7 @@ function Login({ onLogin }) {
         history.push('/movies');
       }
     });
+
   };
   return (
     <main className='login'>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import Form from '../Form/Form';
 
 import './Register.css';
@@ -20,6 +19,7 @@ function Register({ onRegister, onLogin }) {
     email: '',
     password: '',
   });
+
   const history = useHistory();
 
   React.useEffect(() => {
@@ -36,6 +36,7 @@ function Register({ onRegister, onLogin }) {
       setButtonDisabled(true);
     }
   }, [errors, data]);
+
   function validate(e) {
     const { name, validationMessage } = e.target;
     setErrors({
@@ -68,6 +69,7 @@ function Register({ onRegister, onLogin }) {
         history.push('/movies');
       }
     });
+
   };
   return (
     <main className='register'>
