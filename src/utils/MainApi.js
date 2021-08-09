@@ -5,8 +5,8 @@ class Api {
   }
 
   register(name, password, email) {
-    return fetch(this.baseURL + '/signup', {
-      method: 'POST',
+    return fetch(this.baseURL + "/signup", {
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify({ name, password, email }),
     }).then((res) => {
@@ -19,8 +19,8 @@ class Api {
   }
 
   login(password, email) {
-    return fetch(this.baseURL + '/signin', {
-      method: 'POST',
+    return fetch(this.baseURL + "/signin", {
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify({ password, email }),
     }).then((res) => {
@@ -32,10 +32,10 @@ class Api {
   }
 
   tokenCheck(jwt) {
-    return fetch(this.baseURL + '/users/me', {
-      method: 'GET',
+    return fetch(this.baseURL + "/users/me", {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         authorization: jwt,
       },
     }).then((res) => {
@@ -47,7 +47,7 @@ class Api {
   }
 
   getSavedMovies() {
-    return fetch(this.baseURL + '/movies', {
+    return fetch(this.baseURL + "/movies", {
       headers: this.headers,
     })
       .then((res) => {
@@ -63,8 +63,8 @@ class Api {
   }
 
   saveMovie(movie) {
-    return fetch(this.baseURL + '/movies', {
-      method: 'POST',
+    return fetch(this.baseURL + "/movies", {
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify({
         country: movie.country,
@@ -88,8 +88,8 @@ class Api {
   }
 
   deleteMovie(movieId) {
-    return fetch(this.baseURL + '/movies/' + movieId, {
-      method: 'DELETE',
+    return fetch(this.baseURL + "/movies/" + movieId, {
+      method: "DELETE",
       headers: this.headers,
     }).then((res) => {
       if (res.ok) {
@@ -100,7 +100,7 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(this.baseURL + '/users/me', {
+    return fetch(this.baseURL + "/users/me", {
       headers: this.headers,
     }).then((res) => {
       if (res.ok) {
@@ -111,8 +111,8 @@ class Api {
   }
 
   setUserInfo(email, name) {
-    return fetch(this.baseURL + '/users/me', {
-      method: 'PATCH',
+    return fetch(this.baseURL + "/users/me", {
+      method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
         email: email,
@@ -133,9 +133,9 @@ class Api {
 }
 
 const options = {
-  baseURL: 'https://api.hello-world.students.nomoredomains.rocks',
+  baseURL: "https://apimovies.hosfatantabolis.ru",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 };
 
