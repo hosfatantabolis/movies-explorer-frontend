@@ -12,4 +12,4 @@ Front-end часть проекта Movies-Explorer на ReactJS. Сервис �
 
 ## Ссылка на статику
 
-https://http://movies.hosfatantabolis.ru/
+https://movies.hosfatantabolis.ru/
